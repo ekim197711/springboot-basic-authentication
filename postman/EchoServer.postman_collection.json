@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "bfd3c047-214f-465e-b439-f40fdee692df",
+		"name": "EchoServer",
+		"description": "sadfsdafasf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "GetSomething",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d40c6951-d310-487e-a5a4-99b2e70b3387",
+								"exec": [
+									"pm.environment.set(\"mytimestamp\", new Date());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "50fb3198-9deb-4c83-8af0-1e6de6de9c0b",
+								"exec": [
+									"tests[\"Body contains headers\"] = responseBody.has(\"headers\");",
+									"tests[\"Body contains args\"] = responseBody.has(\"args\");",
+									"tests[\"Body contains url\"] = responseBody.has(\"url\");",
+									"var responseJSON;",
+									"",
+									"try { ",
+									"    responseJSON = JSON.parse(responseBody); ",
+									"    tests[\"My timestamp header is there\"] = 'mikestimestamp' in responseJSON.header;",
+									"",
+									"}",
+									"catch (e) {",
+									"    console.log(\"error: \" + JSON.stringify(e));",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "myheader1",
+								"value": "myheadervalue1",
+								"type": "text"
+							},
+							{
+								"key": "mikestimestamp",
+								"value": "{{mytimestamp}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/get?weatherday=in 2 days from now&location=Denmark&city=Copenhagen",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"get"
+							],
+							"query": [
+								{
+									"key": "weatherday",
+									"value": "in 2 days from now"
+								},
+								{
+									"key": "location",
+									"value": "Denmark"
+								},
+								{
+									"key": "city",
+									"value": "Copenhagen"
+								}
+							]
+						},
+						"description": "Lets try to run a get request against the echo server"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "Post example",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"important_note\": \"Remember to buy milk\",\n\t\"Another_important_note\": \"The milk is too old\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://postman-echo.com/post",
+							"protocol": "https",
+							"host": [
+								"postman-echo",
+								"com"
+							],
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "MySpringBootApplication",
+			"item": [
+				{
+					"name": "MikeWeather",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SusanneWeather Should not be allowed",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{susannepassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{susanneusername}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{weatherbaseurl}}/developer/weathertoday",
+							"host": [
+								"{{weatherbaseurl}}"
+							],
+							"path": [
+								"developer",
+								"weathertoday"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
